@@ -5,24 +5,54 @@ const store = {
   // 5 or more questions are required
   questions: [
     {
-      question: 'What color is broccoli?',
+      question: 'Where does Buffy work in season Six?',
       answers: [
-        'red',
-        'orange',
-        'pink',
-        'green'
+        'Burger Palace',
+        'Hot Dog On A Stick',
+        'Smoothie Street',
+        'Ricos Tacos, Tacos'
       ],
-      correctAnswer: 'green'
+      correctAnswer: 'Hot Dog On A Stick'
     },
     {
-      question: 'What is the current year?',
+      question: 'Which character is not part of the Scooby Gang',
       answers: [
-        '1970',
-        '2015',
-        '2019',
-        '2005'
+        'Xander',
+        'Willow',
+        'Lilly',
+        'Cordelia'
       ],
-      correctAnswer: '2019'
+      correctAnswer: 'Lilly'
+    },
+    {
+      question: "What is the name of Buffy's Watcher?",
+      answers: [
+        'Rupert',
+        'Watson',
+        'Alfred',
+        'Timothy'
+      ],
+      correctAnswer: 'Rupert'
+    },
+    {
+      question: 'Oz is what type of supernatural creature?',
+      answers: [
+        'Vampire',
+        'Werewolf',
+        'Changling',
+        'Mereman'
+      ],
+      correctAnswer: 'Werewolf'
+    },
+    {
+      question: "What is buffy's sister's name?",
+      answers: [
+        'Carla',
+        'Willow',
+        'Dawn',
+        'Jessica'
+      ],
+      correctAnswer: 'Dawn'
     }
   ],
   quizStarted: false,
@@ -49,10 +79,56 @@ const store = {
 
 // These functions return HTML templates
 
+function generateTemplate() {
+  console.log("generateTemplate");
+  var template = $('<div class = js-template>'
+                  +'<div class = "question">'
+                  +'<h2>How big of a fan are you?</h2>'
+                  +'</div>'
+                  +'<div class = "answers"></div>'
+                  +'<div class = "button-wrap">'
+                  +'<button id="submit">Submit</button>'
+                  +'<button id="start">Start</button>'
+                  +'<button id="next">Next</button>'
+                  +'<div class = "feedback"></div>'
+                  +'</div>'
+                  +'</div>');
+    template.appendTo("main");
+}
+
 /********** RENDER FUNCTION(S) **********/
 
 // This function conditionally replaces the contents of the <main> tag based on the state of the store
 
+function renderQuestion() {
+  console.log("renderQuestion");
+}
+
 /********** EVENT HANDLER FUNCTIONS **********/
 
 // These functions handle events (submit, click, etc)
+
+function handleSubmit() {
+  console.log("handleSubmit");
+}
+
+
+function handleNext() {
+  console.log("handleNext");
+}
+
+function handleStart() {
+  console.log("handleStart");
+
+} 
+
+
+function handleQuizApp(){
+  generateTemplate();
+  handleStart();
+  renderQuestion();
+  handleNext();
+  handleSubmit();
+};  
+
+handleQuizApp();
