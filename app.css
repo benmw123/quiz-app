@@ -37,3 +37,11 @@ h1 {
 .question {
   text-align: center;
 }
+
+.hide {
+  visibility: hidden; 
+}
+
+form {
+  display: flex;
+}

@@ -87,11 +87,12 @@ function generateTemplate() {
                   +'</div>'
                   +'<div class = "answers"></div>'
                   +'<div class = "button-wrap">'
-                  +'<button id="submit">Submit</button>'
+                  +'<button id="submit" class="hide">Submit</button>'
                   +'<button id="start">Start</button>'
-                  +'<button id="next">Next</button>'
-                  +'<div class = "feedback"></div>'
+                  +'<button id="next" class="hide">Next</button>'
                   +'</div>'
+                  +'<div class = "question-counter-box"></div>'
+                  +'<div class = "feedback"></div>'
                   +'</div>');
     template.appendTo("main");
 }
@@ -100,19 +101,56 @@ function generateTemplate() {
 
 // This function conditionally replaces the contents of the <main> tag based on the state of the store
 
+//when user hits start. start button is hidden and submit and next button is 
+// shown. question div shows first question. answer div shows form showing first answers.
+// counter div shows the score and question counter. 
 function renderQuestion() {
   console.log("renderQuestion");
+    $('#start').on('click', function() {
+      $(this).hide();
+      $("#submit").toggleClass("hide");
+      $(".question h2").text("What is buffy's sister's name?");
+      $(".answers").html("<form>"
+                        +"<ol type='A'>"
+                        +"<li>"
+                        +"<input type=radio name=choice value=0>"
+                        +"Carla"
+                        +"</li>"
+                        +"<li>"
+                        +"<input type=radio name=choice value=1>"
+                        +"Willow"
+                        +"</li>"
+                        +"<li>"
+                        +"<input type=radio name=choice value=2>"
+                        +"Dawn"
+                        +"</li>"
+                        +"<li>"
+                        +"<input type=radio name=choice value=3>"
+                        +"Jessica"
+                        +"</li>"
+                        +"</ol>"
+                        +"</form>"
+                        ); 
+      $(".question-counter-box").html(
+                        "<p>Question:</p> <p>Score:</p>");                  
+    });
+    
+  
+
 }
 
 /********** EVENT HANDLER FUNCTIONS **********/
 
 // These functions handle events (submit, click, etc)
 
+//after user submits answer we need to verify if answer is correct. if answer is correct
+//tell them in <div> feedback. if answer is incorrect in <div> feedback provide them
+//with the correct question. Update question and score counter. 
 function handleSubmit() {
   console.log("handleSubmit");
 }
 
-
+//when user hits next, render the next question. we can do this by providing the array index that matches the question number?
 function handleNext() {
   console.log("handleNext");
 }
