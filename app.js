@@ -1,7 +1,7 @@
 /**
  * Example store structure
  */
-const store = {
+let store = {
   // 5 or more questions are required
   questions: [
     {
@@ -79,65 +79,86 @@ const store = {
 
 // These functions return HTML templates
 
-function generateTemplate() {
-  console.log("generateTemplate");
-  var template = $('<div class = js-template>'
-                  +'<div class = "question">'
-                  +'<h2>How big of a fan are you?</h2>'
-                  +'</div>'
-                  +'<div class = "answers"></div>'
-                  +'<div class = "button-wrap">'
-                  +'<button id="submit" class="hide">Submit</button>'
-                  +'<button id="start">Start</button>'
-                  +'<button id="next" class="hide">Next</button>'
-                  +'</div>'
-                  +'<div class = "question-counter-box"></div>'
-                  +'<div class = "feedback"></div>'
-                  +'</div>');
-    template.appendTo("main");
+//this is a template for the opening 'splash' page. 
+
+function questionCounter() {
+  store.questionNumber+=1;
 }
+
+function generateSplash() {
+  return `
+  <div class="splash">
+    <form>
+      <p>
+        How big of a fan are you?
+      </p>
+
+      <button type="submit" id="beginQuiz" autofocus> Begin Quiz</button>
+    </form>
+  </div>
+  `;  
+}
+
+function generateQuestion() {
+  let answerString  = "";
+  let questionObject = store.questions[store.questionNumber];
+  let questionText = questionObject.question;
+
+  console.log(store.questionNumber);
+
+
+  questionObject.answers.map((a, i)=>{
+    answerString+= `
+    <li>
+      <input type="radio" name="answer" id="answer-${i}" data-answer="${a}" value="${a}">
+      <label for="answer-${i}"> ${a}</label>
+    </li>  
+  `
+  })
+  return `
+  <div class="question">
+    <form>
+      <p>
+        Question ${store.questionNumber+1}
+      <p>
+        ${questionText}
+      </p>
+  <div class="answer-container">
+    <ol>
+      ${answerString}
+    </ol>
+    <button class="ans-button" onClick="checkAnswer(event)">
+      Check Answer
+    </button>
+  </div>`
+}
+
+function checkAnswer(e) {
+  let correctStringText = "";
+  let wrongStringText = "";
+
+  e.preventDefault(); 
+  let selectedAnswer = $("input[name='answer']:checked").val();
+  let currentCorrectAnswer = store.questions[store.questionNumber].correctAnswer;
+
+  if (selectedAnswer === currentCorrectAnswer) {
+    correctStringText = `Your answer is correct! You are a true Vampire Slayer!`;
+  } else {
+    wrongStringText = `That is incorrect. The correct answer is ${currentCorrectAnswer}.`;
+  }
+  console.log(correctStringText);
+  console.log(wrongStringText);
+}
+
+ 
 
 /********** RENDER FUNCTION(S) **********/
 
 // This function conditionally replaces the contents of the <main> tag based on the state of the store
 
-//when user hits start. start button is hidden and submit and next button is 
-// shown. question div shows first question. answer div shows form showing first answers.
-// counter div shows the score and question counter. 
 function renderQuestion() {
-  console.log("renderQuestion");
-    $('#start').on('click', function() {
-      $(this).hide();
-      $("#submit").toggleClass("hide");
-      $(".question h2").text("What is buffy's sister's name?");
-      $(".answers").html("<form>"
-                        +"<ol type='A'>"
-                        +"<li>"
-                        +"<input type=radio name=choice value=0>"
-                        +"Carla"
-                        +"</li>"
-                        +"<li>"
-                        +"<input type=radio name=choice value=1>"
-                        +"Willow"
-                        +"</li>"
-                        +"<li>"
-                        +"<input type=radio name=choice value=2>"
-                        +"Dawn"
-                        +"</li>"
-                        +"<li>"
-                        +"<input type=radio name=choice value=3>"
-                        +"Jessica"
-                        +"</li>"
-                        +"</ol>"
-                        +"</form>"
-                        ); 
-      $(".question-counter-box").html(
-                        "<p>Question:</p> <p>Score:</p>");                  
-    });
-    
   
-
-}
+};
 
 /********** EVENT HANDLER FUNCTIONS **********/
 
@@ -157,12 +178,19 @@ function handleNext() {
 
 function handleStart() {
   console.log("handleStart");
+  $(document).ready(function() {
+    const splashString = generateSplash(); 
+    $('main').html(splashString);
+    const quizInterface = generateQuestion();
+    console.log('ran "generateQuestion"')
+    $('main').html(quizInterface);
+  });
 
 } 
 
 
 function handleQuizApp(){
-  generateTemplate();
+  generateSplash();
   handleStart();
   renderQuestion();
   handleNext();

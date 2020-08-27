@@ -28,20 +28,6 @@ h1 {
   width: 300px;
 }
 
-.button-wrap {
-  display: flex;
-  justify-content: center;
-  
-}
-
-.question {
-  text-align: center;
-}
-
-.hide {
-  visibility: hidden; 
-}
-
 form {
-  display: flex;
+  display: grid;
 }
