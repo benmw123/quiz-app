@@ -60,8 +60,7 @@ let store = {
   score: 0
 };
 
-let correctStringText = "";
-let wrongStringText = "";
+let resultsStringText = "";
 
 /**
  * 
@@ -101,6 +100,20 @@ function generateSplash() {
   `;  
 }
 
+function finalScreen() {
+  return `
+  <div class="final">
+  <form>
+    <p>
+      Congratulations! You have completed the quiz! <br>
+      Your score is ${store.score}.
+    </p>
+    <button type="submit" id="beginQuiz" autofocus> Restart Quiz</button>
+  </form>
+</div>
+`; 
+}
+
 //a template that generates question and answer strings
 function generateQuestion() {
   let answerString  = "";
@@ -130,7 +143,7 @@ function generateQuestion() {
     <ol>
       ${answerString}
     </ol>
-    <button class="ans-button" onClick="checkAnswer(event)"> 
+    <button id="ans-button" onClick="checkAnswer(event)"> 
       Check Answer
     </button>
   </div>`
@@ -140,13 +153,13 @@ function answerFeedback() {
   return  `
   <div class="feedback">
     <form>
-      <p>${correctStringText}${wrongStringText}</p>
+      <p>${resultsStringText}</p>
       <button type="submit" id="next" autofocus> Next Question</button>
     </form>  
   </div>    
   `
 }
-//this function checcks if the user submitted answer is correct
+//this function checks if the user submitted answer is correct
 function checkAnswer(e) {
 
 
@@ -157,60 +170,71 @@ function checkAnswer(e) {
 
   /*for if/else statement assigns appropriate string based on user selection*/
   if (selectedAnswer === currentCorrectAnswer) {
-    correctStringText = `Your answer is correct! You are a true Vampire Slayer!`;
+    resultsStringText = `Your answer is correct! You are a true Vampire Slayer!`;
   } else {
-    wrongStringText = `That is incorrect. The correct answer is ${currentCorrectAnswer}.`;
+    resultsStringText = `That is incorrect. The correct answer is ${currentCorrectAnswer}.`;
   }
-  console.log(correctStringText);
-  console.log(wrongStringText);
+  console.log(resultsStringText);
 }
- 
+
+//on click it has to generate answer feedback
+
+function generateFeedback() {
+  //let feedbackString = answerFeedback(); 
+  console.l
+  console.log(store.questionNumber+1);
+  console.log(store.questions.length); 
+  $('main').on('click', '#ans-button',(event) => {
+    event.preventDefault();
+    $('main').html(answerFeedback()); 
+    // $('#ans-button').prop("id", "restart-quiz");
+    //if (store.questionNumber+1 === store.questions.length) {
+    //  $('#ans-button').attr("id", "restart-quiz");
+    //  $('#restart-quiz').text("Restart Quiz"); 
+  });
+}
+
+
+
+//function that determines if it is the last question, and generates html telling user final score and gives option to restart quiz
+
+//function that keeeps track of score. Correct: 1/5 2/5 3/5 4/5 
 
 /********** RENDER FUNCTION(S) **********/
 
 // This function conditionally replaces the contents of the <main> tag based on the state of the store
 
 function renderQuestion() {
-  
-};
+  $('main').on('click', '#next', (event) => {
+    event.preventDefault();
+    questionCounter();
+    $('main').html(generateQuestion()); 
+}); 
+}
 
 /********** EVENT HANDLER FUNCTIONS **********/
 
 // These functions handle events (submit, click, etc)
 
-//after user submits answer we need to verify if answer is correct. if answer is correct
-//tell them in <div> feedback. if answer is incorrect in <div> feedback provide them
-//with the correct question. Update question and score counter. 
-function handleSubmit() {
-  console.log("handleSubmit");
-}
-
-//when user hits next, render the next question. we can do this by providing the array index that matches the question number?
-function handleNext() {
-  console.log("handleNext");
-}
 
 function handleStart() {
   console.log("handleStart");
   $(document).ready(function() {
-    const splashString = generateSplash(); 
-    $('main').html(splashString);
-    const quizInterface = generateQuestion();
-    console.log('ran "generateQuestion"')
-    $('main').html(quizInterface);
-   // const answerFeedback = answerFeedback(); 
-   // $('main').html(answerFeedback);
-   });
-
-} 
-
-
-function handleQuizApp(){
+    $('main').html(generateSplash());
+    $('main').on('click', '#beginQuiz', (event) => {
+      event.preventDefault();
+      $('main').html(generateQuestion()); 
+  }); 
+    $('main').html(generateSplash());
+});
+}
+   
+function handleQuizApp() {
   generateSplash();
   handleStart();
   renderQuestion();
-  handleNext();
-  handleSubmit();
+  generateQuestion(); 
+  generateFeedback();
 };  
 
-handleQuizApp();
+handleQuizApp(); 
