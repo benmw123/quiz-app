@@ -60,6 +60,9 @@ let store = {
   score: 0
 };
 
+let correctStringText = "";
+let wrongStringText = "";
+
 /**
  * 
  * Technical requirements:
@@ -79,12 +82,12 @@ let store = {
 
 // These functions return HTML templates
 
-//this is a template for the opening 'splash' page. 
-
+//question counter function increases QuestionNumber eash time questionCounter is called. 
 function questionCounter() {
   store.questionNumber+=1;
 }
 
+//this is a template for the opening 'splash' page. 
 function generateSplash() {
   return `
   <div class="splash">
@@ -92,13 +95,13 @@ function generateSplash() {
       <p>
         How big of a fan are you?
       </p>
-
       <button type="submit" id="beginQuiz" autofocus> Begin Quiz</button>
     </form>
   </div>
   `;  
 }
 
+//a template that generates question and answer strings
 function generateQuestion() {
   let answerString  = "";
   let questionObject = store.questions[store.questionNumber];
@@ -106,8 +109,8 @@ function generateQuestion() {
 
   console.log(store.questionNumber);
 
-
-  questionObject.answers.map((a, i)=>{
+  questionObject.answers.map((a, i)=>{ /*using .map to iterate through avalable answers and make a
+    string for each answer*/
     answerString+= `
     <li>
       <input type="radio" name="answer" id="answer-${i}" data-answer="${a}" value="${a}">
@@ -127,20 +130,32 @@ function generateQuestion() {
     <ol>
       ${answerString}
     </ol>
-    <button class="ans-button" onClick="checkAnswer(event)">
+    <button class="ans-button" onClick="checkAnswer(event)"> 
       Check Answer
     </button>
   </div>`
 }
 
+function answerFeedback() {
+  return  `
+  <div class="feedback">
+    <form>
+      <p>${correctStringText}${wrongStringText}</p>
+      <button type="submit" id="next" autofocus> Next Question</button>
+    </form>  
+  </div>    
+  `
+}
+//this function checcks if the user submitted answer is correct
 function checkAnswer(e) {
-  let correctStringText = "";
-  let wrongStringText = "";
+
 
   e.preventDefault(); 
-  let selectedAnswer = $("input[name='answer']:checked").val();
-  let currentCorrectAnswer = store.questions[store.questionNumber].correctAnswer;
+  let selectedAnswer = $("input[name='answer']:checked").val(); //gets value from selected radio
+  let currentCorrectAnswer = store.questions[store.questionNumber].correctAnswer; /*gets correct
+  answer from store*/
 
+  /*for if/else statement assigns appropriate string based on user selection*/
   if (selectedAnswer === currentCorrectAnswer) {
     correctStringText = `Your answer is correct! You are a true Vampire Slayer!`;
   } else {
@@ -149,7 +164,6 @@ function checkAnswer(e) {
   console.log(correctStringText);
   console.log(wrongStringText);
 }
-
  
 
 /********** RENDER FUNCTION(S) **********/
@@ -184,7 +198,9 @@ function handleStart() {
     const quizInterface = generateQuestion();
     console.log('ran "generateQuestion"')
     $('main').html(quizInterface);
-  });
+   // const answerFeedback = answerFeedback(); 
+   // $('main').html(answerFeedback);
+   });
 
 } 
 
