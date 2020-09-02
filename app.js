@@ -59,7 +59,7 @@ let store = {
   score: 0
 };
 
-let resultsStringText = ""; //string declared globaly so it can be used in multiple functions. 
+let resultsStringText = ""; //string declared globally so it can be used in multiple functions. 
 
 /**
  * 
@@ -87,7 +87,7 @@ function scoreCounter() { //+1 to score each time called
 function scorePercentage() { //determines score as a percentage
   if (store.questionNumber === 0) {
     return `
-      no score yet!`
+      No score yet!`
   } else {
     return `
       ${((store.score / store.questionNumber) * 100).toFixed(2)}%`;
@@ -116,12 +116,12 @@ function checkAnswer(e) { //this function checks if the user submitted answer is
 
 function generateSplash() { //this is a template for the opening 'splash' page. 
   return `
-  <div class="splash">
+  <div class="container">
     <form>
       <p>
         How big of a fan are you?
       </p>
-      <button type="submit" id="beginQuiz" autofocus> Begin Quiz</button>
+      <button type="submit" id="beginQuiz"> Begin Quiz</button>
     </form>
   </div>
   `;
@@ -129,10 +129,12 @@ function generateSplash() { //this is a template for the opening 'splash' page.
 
 function answerFeedback() { //this is a template that provides feedback based on users answer 
   return `
-  <div class="feedback">
+  <div class="container">
     <form>
       <p>${resultsStringText}</p>
-      <button type="submit" id="next" autofocus> Next Question</button>
+      <div class="button-container">
+      <button type="submit" id="next"> Next Question</button>
+      </div>  
     </form>  
   </div>    
   `
@@ -140,13 +142,13 @@ function answerFeedback() { //this is a template that provides feedback based on
 
 function finalScreen() { //this is a template for the final screen
   return `
-  <div class="final">
+  <div class="container">
   <form>
     <p>
-      Congratulations! You have completed the quiz! <br>
+      Congratulations! You have completed the quiz! <br> <br>
       Your final score is ${scorePercentage()}.
     </p>
-    <button type="submit" id="restart" autofocus> Restart Quiz</button>
+    <button type="submit" id="restart"> Restart Quiz</button>
   </form>
 </div>
 `;
@@ -170,31 +172,37 @@ function generateQuestion() { //this function is both a template for the questio
       <label for="answer-${i}"> ${a}</label>
     </li>  
   `
-  })
+  });
+
   return `
-  <div class="question">
-    <form>
-      <p>
-        Question ${store.questionNumber + 1} out of ${store.questions.length}.
-        Current score: ${scorePercentage()}.
-      <p>
-        ${questionText}
-      </p>
-  <div class="answer-container">
-    <ol>
-      ${answerString}
-    </ol>
-    <button id="ans-button" onClick="checkAnswer(event)"> 
-      Check Answer
-    </button>
+  <div class ="container">
+    <div class="question">
+      <form>
+        <p>
+          Question ${store.questionNumber + 1} out of ${store.questions.length}. <br>
+          Current score: ${scorePercentage()}
+        <p>
+          ${questionText}
+        </p>
+    <div class="answer">
+      <ol type="A">
+        ${answerString}
+      </ol>
+      <div class="button-container">
+      <button id="check-answer" onClick="checkAnswer(event)"> 
+       Check Answer
+      </button>
+      </div>
+    </div>
   </div>`
+
 }
 
 /********** EVENT HANDLER FUNCTIONS **********/
 
 // These functions handle events (submit, click, etc)
 
-function handleStart() { 
+function handleStart() {
   $(document).ready(function () {
     $('main').html(generateSplash());
     $('main').on('click', '#beginQuiz', (event) => {
@@ -212,7 +220,7 @@ function renderQuestion() {
 }
 
 function generateFeedback() {
-  $('main').on('click', '#ans-button', (event) => {
+  $('main').on('click', '#check-answer', (event) => {
     event.preventDefault();
     questionCounter();
     $('main').html(answerFeedback());
@@ -236,7 +244,7 @@ function restartQuiz() {
     store.questionNumber = 0;
     store.score = 0;
     $('main').html(generateQuestion());
-  })
+  });
 }
 
 
@@ -248,6 +256,6 @@ function handleQuizApp() {
   generateFeedback();
   generateFinal();
   restartQuiz()
-};
+}
 
 handleQuizApp(); 

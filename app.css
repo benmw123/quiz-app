@@ -10,16 +10,21 @@
 body {
   padding: 0;
   margin: 0;
+  background-color: #283351;
+  color: white;
+  
 }
 
 main {
   display: flex;
   justify-content: center;
+  
 }
 
 h1 {
   text-align: center;
   padding-bottom: 25px;
+  
 }
 
 .js-template {
@@ -30,4 +35,37 @@ h1 {
 
 form {
   display: grid;
+  margin: 10%;
+}
+
+.button-container {
+  text-align: center; 
+}
+
+.container {
+  border-style: double;
+  border-color: black;
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+  width: 85%;
+  height: 375px;  
+}
+
+@media all and (min-width: 900px){
+
+  main {
+    font-size: 24px;
+  }
+
+  h1 {
+    font-size: 48px;
+    margin-top: 5%;
+  }
+
+  .container { 
+    height: 500px; 
+    border-width: 5px;
+  }
+
 }
