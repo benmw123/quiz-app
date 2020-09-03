@@ -59,7 +59,10 @@ let store = {
   score: 0
 };
 
-let resultsStringText = ""; //string declared globally so it can be used in multiple functions. 
+//strings declared globally so it can be used in multiple functions. 
+
+let resultsStringText = "";
+let selectedAnswer = ""; 
 
 /**
  * 
@@ -97,7 +100,7 @@ function scorePercentage() { //determines score as a percentage
 function checkAnswer(e) { //this function checks if the user submitted answer is correct
 
   e.preventDefault();
-  let selectedAnswer = $("input[name='answer']:checked").val(); //gets value from selected radio
+  selectedAnswer = $("input[name='answer']:checked").val(); //gets value from selected radio
   let currentCorrectAnswer = store.questions[store.questionNumber].correctAnswer; /*gets correct
   answer from store*/
 
@@ -223,8 +226,12 @@ function renderQuestion() {
 function generateFeedback() {
   $('main').on('click', '#check-answer', (event) => {
     event.preventDefault();
-    questionCounter();
-    $('main').html(answerFeedback());
+    if (selectedAnswer === undefined) { //adding form vailidation
+      alert("Please select an answer.")
+    } else {
+      questionCounter();
+      $('main').html(answerFeedback());
+    }
     if (store.questionNumber === store.questions.length) {
       $('#next').prop("id", "finish-quiz");
       $("#finish-quiz").text("Finish");
