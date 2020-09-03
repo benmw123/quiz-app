@@ -184,15 +184,16 @@ function generateQuestion() { //this function is both a template for the questio
         <p>
           ${questionText}
         </p>
-    <div class="answer">
-      <ol type="A">
-        ${answerString}
-      </ol>
-      <div class="button-container">
-      <button id="check-answer" onClick="checkAnswer(event)"> 
-       Check Answer
-      </button>
-      </div>
+        <div class="answer">
+          <ol type="A">
+           ${answerString}
+          </ol>
+            <div class="button-container">
+              <button id="check-answer" onClick="checkAnswer(event)"> 
+              Check Answer
+              </button>
+            </div>
+      </form> 
     </div>
   </div>`
 
@@ -258,4 +259,5 @@ function handleQuizApp() {
   restartQuiz()
 }
 
-handleQuizApp(); 
+$(handleQuizApp); 
+
